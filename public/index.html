@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Signin</title>
+
+
+</head>
+<body>
+
+    <h1>Google Signin</h1>
+    <hr>
+    
+    <div id="g_id_onload"
+        data-client_id="54060445354-fsna2krkob7met1t29b15gpu2uv8dvh1.apps.googleusercontent.com"
+        data-callback="handleCredentialResponse"
+        data-auto_prompt="false"
+        >
+    </div>
+
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+      </div>
+
+
+      <button id="g_id_signout">Sign Out</button>
+
+
+      <hr>
+      <h1>One Tap</h1>
+     
+
+
+    <script>
+    function handleCredentialResponse(response) {
+
+        const body = { id_token: response.credential }
+        fetch('http://localhost:8080/api/auth/google', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        .then( r=> r.json() )
+        .then( resp =>{
+            console.log(resp )
+            localStorage.setItem('email', resp.usuario.correo ) // almacena el correo en el localstorage, que se puede visualizar dando inspeccionar en la pagina 
+        })
+        .catch( console.warn )
+    }
+
+
+    const button = document.getElementById('g_id_signout');
+    button.onclick = async() => {
+
+        console.log(google.accounts.id)// con este comando google.accounts.id se puede obtener la informacion para adaptar el boton de sign out
+        google.accounts.id.disableAutoSelect()
+        google.accounts.id.revoke(localStorage.getItem('email'), done => {// obtiene el email alamacenado en localstorage y cuand otermine lanzara el callback de done
+            console.log('consent revoked');
+            localStorage.clear()// limpia e lcorreo electronico 
+            location.reload() // recarga pagina para vaciar cualquier cosa enviada
+        });
+    }
+
+
+    </script>
+
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</body>
+</html>
