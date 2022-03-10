@@ -41,7 +41,7 @@
     function handleCredentialResponse(response) {
 
         const body = { id_token: response.credential }
-        fetch('http://restserver-node-google-signin/api/auth/google', {
+        fetch('https://restserver-node-google-signin/api/auth/google', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,7 +65,7 @@
         google.accounts.id.revoke(localStorage.getItem('email'), done => {// obtiene el email alamacenado en localstorage y cuand otermine lanzara el callback de done
             console.log('consent revoked');
             localStorage.clear()// limpia e lcorreo electronico 
-            location.reload() // recarga pagina para vaciar cualquier cosa enviada
+            location.reload() // recarga pagina para vaciar cualquier cosa 
         });
     }
 
