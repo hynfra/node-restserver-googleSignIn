@@ -21,7 +21,7 @@ const esAdminRole = ( req, res = response, next ) => {
 }
 
 
-const tieneRole = ( ...roles  ) => {
+const tieneRole = ( ...roles  ) => {// recibe todos los roles escritos en routes
     return (req, res = response, next) => {
         
         if ( !req.usuario ) {// esto valida que se ejecuto este middleware sin validar el token en ejecutar el validar-jwt

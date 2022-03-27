@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const Usuario = require('../models/usuario');
 
 //los middleware reciben 3 argumentos normalmente, la request, response y el next que permite continuar con otro middlware
-const validarJWT = async( req = request, res = response, next ) => {
+const validarJWT = async( req = request, res = response, next ) => { // este metodo valida el token y ademas entrega el usuario ingresado
 
     const token = req.header('x-token');// se recibe el valor del token desde una variable que se llama x-token desde el header 
 
